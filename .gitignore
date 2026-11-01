@@ -29,3 +29,4 @@ tryit_snapshot.html
 workshop-images*.tar
 workshop-images*.tar.gz
 PREPARE.md
+.gitignore
