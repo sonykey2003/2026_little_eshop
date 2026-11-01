@@ -1,0 +1,19 @@
+<!-- The thank-you page. -->
+{% extends "base.html" %}
+
+{% block title %}Thank you - {{ shop_name }}{% endblock %}
+
+{% block content %}
+  <div class="confirmation">
+    <h1>Thank you, {{ order.customer_name }}.</h1>
+
+    <p>Your pretend order <strong>#{{ order.id }}</strong> is confirmed,
+       and we charged your imaginary card
+       {{ currency }}{{ "%.2f"|format(order.total) }}.</p>
+
+    <p>A receipt would normally go to {{ order.email }}, but this shop
+       does not send email either.</p>
+
+    <a class="button" href="{{ url_for('home') }}">Back to the shop</a>
+  </div>
+{% endblock %}

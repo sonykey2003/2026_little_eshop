@@ -1,0 +1,27 @@
+<!-- One product, in detail. -->
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - {{ shop_name }}{% endblock %}
+
+{% block content %}
+  <a class="back-link" href="{{ url_for('home') }}">&larr; Back to the shop</a>
+
+  <div class="product-detail">
+    <img src="{{ url_for('static', filename='img/' ~ product.image_file) }}" alt="{{ product.name }}">
+
+    <div>
+      <h1>{{ product.name }}</h1>
+      <p class="price price-large">{{ currency }}{{ "%.2f"|format(product.price) }}</p>
+      <p>{{ product.description }}</p>
+
+      {% if product.in_stock %}
+        <!-- Adding to a cart changes something, so it is a POST, not a link. -->
+        <form method="post" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+          <button class="button" type="submit">Add to cart</button>
+        </form>
+      {% else %}
+        <p class="sold-out">Sold out</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

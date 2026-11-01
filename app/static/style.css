@@ -1,0 +1,326 @@
+/* ==========================================================================
+   The look of the shop.
+
+   This is the file to play with. Change a value, save, refresh the browser.
+   If you break something badly, delete your change and save again.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   1. START HERE. Change these and the whole site changes.
+
+   Everything below uses these names instead of repeating colours by hand,
+   so one edit here reaches every page at once.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --brand:        #0f766e;   /* buttons, links, the shop name */
+  --brand-dark:   #115e59;   /* the same colour, darker, for hover */
+  --ink:          #1f2937;   /* normal text */
+  --ink-light:    #6b7280;   /* small print */
+  --page:         #f8fafc;   /* the background behind everything */
+  --card:         #ffffff;   /* panels and product cards */
+  --line:         #e5e7eb;   /* thin dividing lines */
+  --warning-bg:   #fef3c7;   /* the "this is only practice" notice */
+
+  --radius:       10px;      /* how rounded the corners are. Try 0. Try 30px. */
+  --font:         system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. The basics
+   -------------------------------------------------------------------------- */
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--page);
+  line-height: 1.6;
+}
+
+img { max-width: 100%; }
+
+h1 { font-size: 1.8rem; margin-top: 0; }
+h2 { font-size: 1.2rem; }
+
+
+/* --------------------------------------------------------------------------
+   3. The header and footer
+   -------------------------------------------------------------------------- */
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  padding: 18px 24px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+
+.logo { text-decoration: none; }
+
+.logo-name {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--brand);
+}
+
+.logo-tagline {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--ink-light);
+}
+
+.cart-link {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.cart-badge {
+  display: inline-block;
+  min-width: 22px;
+  padding: 1px 6px;
+  border-radius: 11px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.site-footer {
+  padding: 30px 24px;
+  color: var(--ink-light);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. The page itself
+   -------------------------------------------------------------------------- */
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 20px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: var(--brand);
+  text-decoration: none;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. Products
+
+   "grid" lays things out in rows and columns. auto-fill with minmax means
+   "fit as many 200px columns as you can, and share out any space left over",
+   which is why the shop reflows neatly on a phone.
+   -------------------------------------------------------------------------- */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  display: block;
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.product-card h2 { margin: 12px 0 4px; font-size: 1rem; }
+
+.price { color: var(--brand); font-weight: 700; margin: 0; }
+.price-large { font-size: 1.5rem; }
+
+.product-detail {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+  align-items: start;
+
+  padding: 24px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.sold-out { color: var(--ink-light); font-weight: 600; }
+
+
+/* --------------------------------------------------------------------------
+   6. Buttons
+   -------------------------------------------------------------------------- */
+
+.button {
+  display: inline-block;
+  padding: 11px 20px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--brand);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button:hover { background: var(--brand-dark); }
+
+.button-quiet {
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: none;
+  color: var(--ink-light);
+  font: inherit;
+  cursor: pointer;
+}
+
+
+/* --------------------------------------------------------------------------
+   7. Cart and checkout
+   -------------------------------------------------------------------------- */
+
+.cart-table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+
+.cart-total { font-weight: 700; }
+.cart-total td { border-bottom: none; }
+
+.warning {
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  background: var(--warning-bg);
+}
+
+.order-summary { list-style: none; padding: 0; max-width: 420px; }
+
+.order-summary li {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.order-summary-total { font-weight: 700; border-bottom: none; }
+
+.checkout-form {
+  display: grid;
+  gap: 16px;
+  max-width: 420px;
+  margin-top: 20px;
+}
+
+.checkout-form label { display: grid; gap: 6px; font-weight: 600; }
+
+.checkout-form input {
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.checkout-form small { font-weight: 400; color: var(--ink-light); }
+
+.confirmation {
+  padding: 32px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+
+/* --------------------------------------------------------------------------
+   8. The optional chat box
+   -------------------------------------------------------------------------- */
+
+#chat { position: fixed; right: 20px; bottom: 20px; }
+
+#chat-toggle {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 24px;
+  background: var(--brand);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+#chat-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(320px, calc(100vw - 40px));
+  height: 400px;
+  margin-bottom: 10px;
+
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+#chat-messages { flex: 1; padding: 12px; overflow-y: auto; font-size: 0.9rem; }
+
+.chat-line { margin-bottom: 10px; }
+.chat-line b { color: var(--brand); }
+
+#chat-form { display: flex; border-top: 1px solid var(--line); }
+
+#chat-input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  font: inherit;
+}
+
+#chat-input:focus { outline: 2px solid var(--brand); outline-offset: -2px; }
+
+#chat-form button {
+  padding: 10px 14px;
+  border: none;
+  background: var(--brand);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}

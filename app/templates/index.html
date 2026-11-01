@@ -1,0 +1,17 @@
+<!-- The front page: a grid of everything we sell. -->
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Everything in the shop</h1>
+
+  <div class="product-grid">
+    <!-- Write the same card once, and let the loop repeat it per product. -->
+    {% for product in products %}
+      <a class="product-card" href="{{ url_for('product_page', product_id=product.id) }}">
+        <img src="{{ url_for('static', filename='img/' ~ product.image_file) }}" alt="{{ product.name }}">
+        <h2>{{ product.name }}</h2>
+        <p class="price">{{ currency }}{{ "%.2f"|format(product.price) }}</p>
+      </a>
+    {% endfor %}
+  </div>
+{% endblock %}

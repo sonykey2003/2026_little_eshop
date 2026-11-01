@@ -1,0 +1,5 @@
+# The three libraries this app needs. That is all.
+
+Flask==3.1.0           # the web framework: turns URLs into Python functions
+psycopg[binary]==3.2.3 # talks to the PostgreSQL database
+requests==2.32.3       # makes the HTTP call to the optional AI service

@@ -1,0 +1,31 @@
+# ---------------------------------------------------------------------------
+# Never commit these.
+# ---------------------------------------------------------------------------
+
+# Old workshop material. Not part of this project.
+_archive/
+
+# Your secrets live here. The .env.example file is the safe one to commit.
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Made by GUIDEBOOK.ipynb for pasting into the W3Schools editor.
+tryit_snapshot.html
+
+# Editors and operating systems
+.DS_Store
+.vscode/
+.idea/
+
+# Offline image bundles for the workshop. Far too big for a repository.
+workshop-images*.tar
+workshop-images*.tar.gz
+PREPARE.md

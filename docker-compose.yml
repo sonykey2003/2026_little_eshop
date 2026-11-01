@@ -1,0 +1,92 @@
+# ---------------------------------------------------------------------------
+# This file describes the two programs that make up our shop, and how they
+# talk to each other.
+#
+#   web  - the Python website you can edit
+#   db   - the PostgreSQL database that stores products and orders
+#
+# Start everything with:   docker compose up
+# Stop everything with:    Ctrl+C, then docker compose down
+# ---------------------------------------------------------------------------
+
+services:
+
+  # -------------------------------------------------------------------------
+  # The website.
+  # -------------------------------------------------------------------------
+  web:
+    # Build the image using the Dockerfile in this folder.
+    build: .
+
+    # Give the image we just built a fixed name.
+    # Without this, Docker names it after whatever you called the folder,
+    # which makes it hard to talk about. Now it is the same for everyone.
+    image: littleshop-web
+
+    # Make the site reachable at http://localhost:8000 in your browser.
+    # The format is "port on your laptop : port inside the container".
+    ports:
+      - "8000:8000"
+
+    # Settings the app reads. Anything here comes from your .env file.
+    environment:
+      SHOP_NAME: ${SHOP_NAME:-The Little Phuket Shop}
+      SHOP_TAGLINE: ${SHOP_TAGLINE:-Nice things, fair prices}
+      CURRENCY_SYMBOL: ${CURRENCY_SYMBOL:-B}
+      SECRET_KEY: ${SECRET_KEY:-dev-secret-change-me}
+
+      # "db" is the hostname of the database service below.
+      # Docker gives every service a name its neighbours can use.
+      DATABASE_URL: postgresql://${POSTGRES_USER:-shopkeeper}:${POSTGRES_PASSWORD:-shoppassword}@db:5432/${POSTGRES_DB:-shop}
+
+      # Optional AI assistant. Empty key = no chat button. See .env.example.
+      AI_API_KEY: ${AI_API_KEY:-}
+      AI_BASE_URL: ${AI_BASE_URL:-}
+      AI_MODEL: ${AI_MODEL:-}
+
+    # Show your edited files to the running container straight away.
+    # Save a file, refresh the browser, see the change. No rebuild needed.
+    volumes:
+      - ./app:/app
+
+    # Do not start the website until the database is actually ready to
+    # answer questions. Without this, the app starts first and crashes.
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # -------------------------------------------------------------------------
+  # The database.
+  # -------------------------------------------------------------------------
+  db:
+    # An official, ready-made PostgreSQL image. We do not build this one.
+    image: postgres:17-alpine
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-shop}
+      POSTGRES_USER: ${POSTGRES_USER:-shopkeeper}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-shoppassword}
+
+    volumes:
+      # Any .sql file in this folder runs automatically the FIRST time the
+      # database is created. That is how our tables and products get there.
+      - ./db:/docker-entrypoint-initdb.d:ro
+
+      # Keeps the data when you stop the containers.
+      # To start completely fresh:  docker compose down -v
+      - shop_data:/var/lib/postgresql/data
+
+    # Let us connect with a database tool on the laptop if we want to.
+    ports:
+      - "5432:5432"
+
+    # Docker keeps asking "are you ready yet?" until this command succeeds.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-shopkeeper} -d ${POSTGRES_DB:-shop}"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+# The named storage area used by the database above.
+volumes:
+  shop_data:

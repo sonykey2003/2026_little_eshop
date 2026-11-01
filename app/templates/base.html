@@ -1,0 +1,60 @@
+<!--
+  The frame every page sits inside.
+
+  Instead of repeating the header and footer six times, we write them once
+  here. Each other template fills in the named blocks below.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- The text shown in the browser tab. -->
+  <title>{% block title %}{{ shop_name }}{% endblock %}</title>
+
+  <!-- All of the styling lives in one file. Open it and start changing things. -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <a class="logo" href="{{ url_for('home') }}">
+      <span class="logo-name">{{ shop_name }}</span>
+      <span class="logo-tagline">{{ shop_tagline }}</span>
+    </a>
+
+    <a class="cart-link" href="{{ url_for('cart_page') }}">
+      Cart
+      {% if cart_count %}<span class="cart-badge">{{ cart_count }}</span>{% endif %}
+    </a>
+  </header>
+
+  <main class="page">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <p>{{ shop_name }} &mdash; a practice shop built at a workshop. Nothing here is really for sale.</p>
+  </footer>
+
+  <!-- The chat box only exists if an API key was set up. See README.md. -->
+  {% if chat_enabled %}
+    <div id="chat">
+      <button id="chat-toggle" type="button">Ask for help</button>
+
+      <div id="chat-panel" hidden>
+        <div id="chat-messages"></div>
+        <form id="chat-form">
+          <input id="chat-input" type="text" placeholder="Do you sell hats?" autocomplete="off">
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='chat.js') }}"></script>
+  {% endif %}
+
+</body>
+</html>

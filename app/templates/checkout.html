@@ -1,0 +1,48 @@
+<!-- The pretend payment page. -->
+{% extends "base.html" %}
+
+{% block title %}Checkout - {{ shop_name }}{% endblock %}
+
+{% block content %}
+  <h1>Checkout</h1>
+
+  <p class="warning">
+    This is a practice shop. No payment is taken and nothing will be posted
+    to you. <strong>Do not type a real card number.</strong>
+  </p>
+
+  <h2>You are buying</h2>
+  <ul class="order-summary">
+    {% for line in lines %}
+      <li>{{ line.quantity }} &times; {{ line.product.name }}
+          <span>{{ currency }}{{ "%.2f"|format(line.line_total) }}</span></li>
+    {% endfor %}
+    <li class="order-summary-total">Total
+        <span>{{ currency }}{{ "%.2f"|format(total) }}</span></li>
+  </ul>
+
+  <form method="post" class="checkout-form">
+    <label>
+      Your name
+      <input type="text" name="customer_name" required>
+    </label>
+
+    <label>
+      Email
+      <input type="email" name="email" required>
+    </label>
+
+    <label>
+      Card number
+      <input type="text" name="card_number" placeholder="4242 4242 4242 4242" required>
+      <!--
+        This box is here so the page looks complete. The Python code in
+        main.py never reads it, so the number goes nowhere and is stored
+        nowhere. Handling real card details safely is a specialist job.
+      -->
+      <small>Made up numbers only. This box is ignored.</small>
+    </label>
+
+    <button class="button" type="submit">Pay {{ currency }}{{ "%.2f"|format(total) }}</button>
+  </form>
+{% endblock %}
