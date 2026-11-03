@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" role="img" aria-label="Logo">
+  <rect width="200" height="60" fill="#0f766e"/>
+  <circle cx="32" cy="30" r="16" fill="#ffffff" opacity="0.35"/>
+  <text x="120" y="37" font-family="system-ui, sans-serif" font-size="20"
+        fill="#ffffff" text-anchor="middle">Your Logo</text>
+</svg>
